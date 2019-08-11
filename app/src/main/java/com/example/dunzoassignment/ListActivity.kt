@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.*
+import com.example.dunzoassignment.model.Feed
 import com.example.dunzoassignment.model.FinalObject
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
@@ -17,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger
 class ListActivity : AppCompatActivity() {
 
     private val searchTag = "Search"
-    private var searchText : String?= null
+    private var searchText: String? = null
 
     //Atomic values are used since many threads are calling it.
     private var startIndex = AtomicInteger(1)
@@ -33,15 +34,17 @@ class ListActivity : AppCompatActivity() {
 
         recyclerview.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            itemAnimator = DefaultItemAnimator()
 
             //removes the blink on the image on clicking the view holder
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
             adapter = createAdapter()
+
+            attachOnScrollListener(recyclerview)
         }
     }
 
+    //Attaching a scroll view on the recycler view
     fun attachOnScrollListener(recyclerView: RecyclerView) {
 
         val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -53,16 +56,17 @@ class ListActivity : AppCompatActivity() {
                 val visibleItems = layoutManager.childCount
                 val firstVisible = layoutManager.findFirstVisibleItemPosition()
 
-                if(totalItems != 0 &&
-                        visibleItems != 0 &&
-                        firstVisible + visibleItems >= totalItems) {
+                if (totalItems != 0 &&
+                    visibleItems != 0 &&
+                    firstVisible + visibleItems >= totalItems
+                ) {
 
                     logDebug("Reached bottom of Recycler view")
-                    if(!requestSent.getAndSet(true) && hasMoreImages.get()) {
+                    if (!requestSent.getAndSet(true) && hasMoreImages.get()) {
                         googleSearch(searchText!!, startIndex.toString())
                     } else {
                         notifyUser(
-                            if(hasMoreImages.get()) "Ongoing Request" else "No more images from the API"
+                            if (hasMoreImages.get()) "Ongoing Request" else "No more images from the API"
                         )
                     }
                 } else {
@@ -72,6 +76,14 @@ class ListActivity : AppCompatActivity() {
         })
     }
 
+    //Notifying users about the updates by running on UI thread
+    private fun notifyUser(message: String) {
+        runOnUiThread {
+            toast(this@ListActivity, message)
+        }
+    }
+
+    //creating Adapter for recycler view by calling the callback function for details button
     fun createAdapter(): ImageAdapter {
         return ImageAdapter().apply {
 
@@ -86,48 +98,105 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
+    //checks if the response is valid or not
+    fun didAPIsucceed(response: Response?): Boolean {
 
-    fun googleSearch(
-                context: Context,
-                searchString: String,
-                startIndex: String
-            ) {
-                val request =
-                    createSearchRequest(searchURL(searchString, startIndex))
+        if (response == null) {
+            logError(Error("No response"))
+            return false
+        }
 
-                HttpClient.client
-                    .newCall(request)
-                    .enqueue(object : Callback {
-
-                        override fun onResponse(response: Response?) {
-
-                            if (!response!!.isSuccessful)
-                                logDebug("Unexpected code $response")
-
-                            val json = response.body().string()
-
-                            if (json == null)
-                                logError(Error("Response is null"))
-                            else {
-                                val list = getImageList(json)
-                                list?.let {
-                                    runOnUiThread {
-                                        (recyclerview.adapter as ImageAdapter).apply {
-                                            addImages(it)
-                                            notifyDataSetChanged()
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onFailure(request: Request?, e: IOException?) {
-                            toast(context, "Failed to preocess your search!! Please try again later.")
-                        }
-                    })
-
+        response.apply {
+            if (!isSuccessful) {
+                logError(Error("Unsuccessful Response"))
+                return false
             }
+
+            if (code() == 403) {
+                notifyUser("Internet issue. Connection lost")
+                return false
+            }
+
+            if (code() != 200) {
+                notifyUser("Quota Over with code ${code()}")
+                return false
+            }
+        }
+
+        return true
+    }
+
+    //returns the start index for the next request. returns null for no request.
+    fun setStartIndexFrom(feed: Feed) {
+
+        //Assuming that if the startIndex of nextPage is NULL then there are no more requests to be made
+        val start = feed.queries?.nextPage?.get(0)?.startIndex
+
+        if (start == null) {
+            notifyUser("No more images from the API")
+            hasMoreImages.set(false)
+        } else {
+            startIndex.set(start)
+        }
+    }
+
+    //calls the OkHttp api
+    fun googleSearch(searchString: String, startIndex: String = "1") {
+        val request =
+            createSearchRequest(searchURL(searchString, startIndex))
+
+        HttpClient.client.newCall(request).enqueue(object : Callback {
+
+            override fun onResponse(response: Response?) {
+                val json = response?.body()?.string()
+                if (didAPIsucceed(response) && json != null) {
+                    handleResponse(json)
+                } else {
+                    logError(Error("API Failure"))
+                    requestSent.set(false)
+                }
+            }
+
+            override fun onFailure(request: Request?, e: IOException?) {
+                notifyUser("Failed to process your search!! Please try again later. ")
+                requestSent.set(false)
+            }
+        })
+    }
+
+    fun handleResponse(json : String) {
+
+        val feed = toFeed(json)
+
+        if(feed != null) {
+
+            setStartIndexFrom(feed)
+            val count = feed.queries?.request?.get(0)?.count
+
+            if(count != null && count != 0) {
+
+                val images = getImageList(json)
+
+                if(images == null || images.size == 0) {
+                    hasMoreImages.set(false)
+                } else {
+                    runOnUiThread {
+                        (recyclerview.adapter as ImageAdapter).apply {
+                            addImages(images)
+                            notifyDataSetChanged()
+                            requestSent.set(false)
+                        }
+                    }
+                }
+
+            } else {
+                hasMoreImages.set(false)
+                notifyUser("No more images from the API")
+            }
+
+        } else {
+            hasMoreImages.set(false)
+            notifyUser("No more images from the API")
         }
     }
 }
-
