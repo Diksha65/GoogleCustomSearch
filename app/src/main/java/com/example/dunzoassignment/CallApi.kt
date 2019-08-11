@@ -17,13 +17,14 @@ fun searchURL(searchString: String, startIndex : String) : HttpUrl {
         .newBuilder()
         .addQueryParameter("q", searchString)
         .addQueryParameter("cx", "011476162607576381860:ra4vmliv9ti")
-        .addQueryParameter("key", "AIzaSyDpMYRjzmp67tQoGDmCk8iun_rY657Lefs")
+        .addQueryParameter("key", "AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys")
         .addQueryParameter("start", startIndex)
         .build()
 
     //AIzaSyBhr-u_ydyht1fHWoQXyTaTgR3nRJc1J1o
     //AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys
     //AIzaSyAcN29jb5LOVBvMTWXGe5ie6X7D9HS68tY
+    //AIzaSyDpMYRjzmp67tQoGDmCk8iun_rY657Lefs
 }
 
 fun createSearchRequest(url : HttpUrl) : Request {

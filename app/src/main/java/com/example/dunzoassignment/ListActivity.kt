@@ -1,12 +1,10 @@
 package com.example.dunzoassignment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.*
 import com.example.dunzoassignment.model.Feed
-import com.example.dunzoassignment.model.FinalObject
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
