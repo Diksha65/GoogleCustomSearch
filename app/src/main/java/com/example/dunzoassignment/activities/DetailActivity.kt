@@ -1,6 +1,5 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.activities
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,8 @@ import com.bumptech.glide.Glide
 import com.example.dunzoassignment.model.FinalObject
 import kotlinx.android.synthetic.main.activity_detail.*
 import android.graphics.BitmapFactory
+import com.example.dunzoassignment.R
+import com.example.dunzoassignment.extensions.toast
 
 class DetailActivity : AppCompatActivity() {
 
@@ -41,10 +42,14 @@ class DetailActivity : AppCompatActivity() {
 
         imageUrl.setOnClickListener {
             val builder = CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(this@DetailActivity, R.color.colorPrimary))
+                .setToolbarColor(ContextCompat.getColor(this@DetailActivity,
+                    R.color.colorPrimary
+                ))
                 .addDefaultShareMenuItem()
                 .setShowTitle(true)
-                .setCloseButtonIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_close))
+                .setCloseButtonIcon(BitmapFactory.decodeResource(this.resources,
+                    R.drawable.ic_close
+                ))
                 .setExitAnimations(this, android.R.anim.fade_in, android.R.anim.fade_out)
                 .build()
 

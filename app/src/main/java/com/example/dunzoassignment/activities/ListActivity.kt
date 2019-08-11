@@ -1,9 +1,12 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.activities
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.*
+import com.example.dunzoassignment.R
+import com.example.dunzoassignment.adapter.ImageAdapter
+import com.example.dunzoassignment.extensions.*
 import com.example.dunzoassignment.model.Feed
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
@@ -141,7 +144,12 @@ class ListActivity : AppCompatActivity() {
     //calls the OkHttp api
     fun googleSearch(searchString: String, startIndex: String = "1") {
         val request =
-            createSearchRequest(searchURL(searchString, startIndex))
+            createSearchRequest(
+                searchURL(
+                    searchString,
+                    startIndex
+                )
+            )
 
         HttpClient.client.newCall(request).enqueue(object : Callback {
 

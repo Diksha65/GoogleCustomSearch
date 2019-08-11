@@ -1,8 +1,11 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.dunzoassignment.R
+import com.example.dunzoassignment.extensions.onChange
+import com.example.dunzoassignment.extensions.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 //API had only 100 calls per day hence it stuck me for a long time.

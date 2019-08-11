@@ -1,4 +1,4 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.extensions
 
 import android.text.Editable
 import android.text.TextWatcher

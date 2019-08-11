@@ -1,14 +1,15 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.extensions
 
 import android.content.Context
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 
 /**
  * LOG ERROR
  */
-fun logError(error : Throwable) { logError("GlobalLog", error) }
+fun logError(error : Throwable) {
+    logError("GlobalLog", error)
+}
 fun logError(tag : String, exception: Throwable) {
     exception.printStackTrace()
     val text = exception.message ?: "NullMessage"
@@ -19,7 +20,9 @@ fun logError(tag : String, exception: Throwable) {
 /**
  * LOG DEBUG
  */
-fun logDebug(message : String?) { logDebug("GlobalLog", message) }
+fun logDebug(message : String?) {
+    logDebug("GlobalLog", message)
+}
 fun logDebug(tag : String, message : String?) {
     val text = message ?: "NullMessage"
     Log.d(tag, text)

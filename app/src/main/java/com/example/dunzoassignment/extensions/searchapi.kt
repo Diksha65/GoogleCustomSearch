@@ -1,4 +1,4 @@
-package com.example.dunzoassignment
+package com.example.dunzoassignment.extensions
 
 import com.example.dunzoassignment.model.Feed
 import com.example.dunzoassignment.model.FinalObject
@@ -43,7 +43,8 @@ fun toFeed(json : String) : Feed? {
     return feed
 }
 
-fun getImageList(json : String) = getImageList(toFeed(json))
+fun getImageList(json : String) =
+    getImageList(toFeed(json))
 
 fun getImageList(feed : Feed?) : ArrayList<FinalObject>? {
 
