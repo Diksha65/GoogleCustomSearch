@@ -1,13 +1,13 @@
 package com.example.dunzoassignment
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.dunzoassignment.searchapi.googleSearch
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var searchQuery : String
+    var searchQuery : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,8 +16,14 @@ class MainActivity : AppCompatActivity() {
         searchText.onChange {text -> searchQuery = text}
 
         searchButton.setOnClickListener {
-            googleSearch(this, searchQuery, "1") {
 
+            if(searchQuery.isEmpty()) {
+                toast(this, "Please enter a valid search text to proceed.")
+            } else {
+                val intent = Intent(this, ListActivity::class.java)
+                intent.putExtra("Search", searchQuery)
+                intent.putExtra("startIndex", "1")
+                startActivity(intent)
             }
         }
     }
