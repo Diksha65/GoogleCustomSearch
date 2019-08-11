@@ -3,6 +3,8 @@ package com.example.dunzoassignment.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.example.dunzoassignment.R
 import com.example.dunzoassignment.extensions.onChange
 import com.example.dunzoassignment.extensions.toast
@@ -24,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         searchText.onChange {text -> searchQuery = text}
 
         searchButton.setOnClickListener {
+
+            Glide.with(this)
+                .load(R.drawable.logo)
+                .centerCrop()
+                .into(logo)
 
             if(searchQuery.isEmpty()) {
                 toast(this, "Please enter a valid search text to proceed.")

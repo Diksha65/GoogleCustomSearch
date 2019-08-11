@@ -30,6 +30,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun setUpViews(image : FinalObject?) {
+
+        arrayOf(link, description, imageTitle).forEach {
+            it.isEnabled = false
+        }
+
         Glide.with(this)
             .load(image!!.src)
             .centerCrop()
