@@ -49,7 +49,7 @@ fun handleSearchResponse(response: String) : ArrayList<FinalObject>? {
                 it.pagemap.cseImage[0].src,
                 it.title,
                 it.link,
-                it.snippet,
+                it.pagemap.metatags[0].ogDescription,
                 false
             )
         } else {

@@ -42,4 +42,5 @@ dependencies {
 
     implementation "com.squareup.okhttp:okhttp:${var}"
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'androidx.browser:browser:1.0.0'
 }

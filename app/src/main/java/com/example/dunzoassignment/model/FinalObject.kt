@@ -8,6 +8,6 @@ data class FinalObject (
     val src : String?,
     val title : String?,
     val link : String?,
-    val snippet : String?,
+    val description : String?,
     var isExpanded : Boolean
 ) : Serializable
