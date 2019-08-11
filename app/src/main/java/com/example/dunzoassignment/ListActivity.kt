@@ -1,6 +1,7 @@
 package com.example.dunzoassignment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,9 @@ import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
 import kotlinx.android.synthetic.main.activity_list.*
 import java.io.IOException
+import androidx.recyclerview.widget.SimpleItemAnimator
+
+
 
 class ListActivity : AppCompatActivity() {
 
@@ -35,7 +39,20 @@ class ListActivity : AppCompatActivity() {
 
         recyclerview.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = ImageAdapter()
+
+            //removes the blink on the image on clicking the view holder
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+            adapter = ImageAdapter().apply {
+                addDetailButtonCallback { finalObject ->
+                    val intent = Intent(this@ListActivity, DetailActivity::class.java)
+
+                    val bundle = Bundle().apply { putSerializable("ImageObject", finalObject) }
+                    intent.putExtras(bundle)
+
+                    startActivity(intent)
+                }
+            }
         }
     }
 
