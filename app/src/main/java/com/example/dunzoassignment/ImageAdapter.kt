@@ -1,6 +1,5 @@
 package com.example.dunzoassignment
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE

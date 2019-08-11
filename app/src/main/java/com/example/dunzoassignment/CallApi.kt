@@ -17,9 +17,13 @@ fun searchURL(searchString: String, startIndex : String) : HttpUrl {
         .newBuilder()
         .addQueryParameter("q", searchString)
         .addQueryParameter("cx", "011476162607576381860:ra4vmliv9ti")
-        .addQueryParameter("key", "AIzaSyBhr-u_ydyht1fHWoQXyTaTgR3nRJc1J1o")
+        .addQueryParameter("key", "AIzaSyDpMYRjzmp67tQoGDmCk8iun_rY657Lefs")
         .addQueryParameter("start", startIndex)
         .build()
+
+    //AIzaSyBhr-u_ydyht1fHWoQXyTaTgR3nRJc1J1o
+    //AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys
+    //AIzaSyAcN29jb5LOVBvMTWXGe5ie6X7D9HS68tY
 }
 
 fun createSearchRequest(url : HttpUrl) : Request {
@@ -28,16 +32,21 @@ fun createSearchRequest(url : HttpUrl) : Request {
         .build()
 }
 
-fun handleSearchResponse(response: String) : ArrayList<FinalObject>? {
-    //val responseBody = response.body().string()
+fun toFeed(json : String) : Feed? {
     val gson = GsonBuilder().create()
-    val feed = gson.fromJson(response, Feed::class.java)
+    val feed = gson.fromJson(json, Feed::class.java)
 
-    if(feed == null) {
-        logDebug("No response received")
-    }
+    if(feed == null)
+        logError(Error("No response received"))
 
-    val itemList = feed?.items?.mapNotNullTo(arrayListOf()) {
+    return feed
+}
+
+fun getImageList(json : String) = getImageList(toFeed(json))
+
+fun getImageList(feed : Feed?) : ArrayList<FinalObject>? {
+
+    return feed?.items?.mapNotNullTo(arrayListOf()) {
         if(it.pagemap != null &&
                 it.pagemap.cseThumbnail != null &&
                 it.pagemap.cseThumbnail.size > 0 &&
@@ -55,6 +64,5 @@ fun handleSearchResponse(response: String) : ArrayList<FinalObject>? {
             null
         }
     }
-    return itemList
 }
 
