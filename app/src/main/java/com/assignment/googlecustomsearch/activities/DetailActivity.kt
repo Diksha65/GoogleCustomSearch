@@ -42,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load(image!!.src)
-            .centerCrop()
+            .fitCenter()
             .placeholder(R.drawable.ic_placeeholder)
             .into(imageView)
 
