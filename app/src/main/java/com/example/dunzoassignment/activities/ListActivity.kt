@@ -31,6 +31,7 @@ class ListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list)
 
         searchText = intent.getStringExtra(searchTag)!!
+        supportActionBar?.title = searchText
         googleSearch(searchText!!)
 
         recyclerview.apply {
@@ -93,6 +94,7 @@ class ListActivity : AppCompatActivity() {
 
                 val bundle = Bundle().apply { putSerializable("ImageObject", finalObject) }
                 intent.putExtras(bundle)
+                intent.putExtra("searchText", searchText)
 
                 startActivity(intent)
             }
@@ -108,18 +110,19 @@ class ListActivity : AppCompatActivity() {
         }
 
         response.apply {
-            if (!isSuccessful) {
-                logError(Error("Unsuccessful Response"))
-                return false
-            }
-
             if (code() == 403) {
-                notifyUser("Internet issue. Connection lost")
+                finish()
+                notifyUser("API Quota Over with code ${code()}")
                 return false
             }
 
             if (code() != 200) {
-                notifyUser("Quota Over with code ${code()}")
+                notifyUser("Internet issue. Connection lost")
+                return false
+            }
+
+            if (!isSuccessful) {
+                notifyUser("Unsuccessful connection! Please try again later.")
                 return false
             }
         }

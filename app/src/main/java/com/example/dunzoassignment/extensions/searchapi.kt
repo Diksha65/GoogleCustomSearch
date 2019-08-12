@@ -17,10 +17,11 @@ fun searchURL(searchString: String, startIndex : String) : HttpUrl {
         .newBuilder()
         .addQueryParameter("q", searchString)
         .addQueryParameter("cx", "011476162607576381860:ra4vmliv9ti")
-        .addQueryParameter("key", "AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys")
+        .addQueryParameter("key", "AIzaSyBJi2kkIw-r4scsFfXtyfEXkrojrS3lnf0")
         .addQueryParameter("start", startIndex)
         .build()
 
+    //AIzaSyBJi2kkIw-r4scsFfXtyfEXkrojrS3lnf0
     //AIzaSyBhr-u_ydyht1fHWoQXyTaTgR3nRJc1J1o
     //AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys
     //AIzaSyAcN29jb5LOVBvMTWXGe5ie6X7D9HS68tY
@@ -67,4 +68,5 @@ fun getImageList(feed : Feed?) : ArrayList<FinalObject>? {
         }
     }
 }
+
 

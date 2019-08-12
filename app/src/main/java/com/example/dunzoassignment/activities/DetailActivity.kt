@@ -16,11 +16,16 @@ class DetailActivity : AppCompatActivity() {
 
     var image : FinalObject? = null
 
+    private val searchText = "searchText"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
         image = intent.extras?.getSerializable("ImageObject") as FinalObject
+        val searchText = intent.getStringExtra(searchText)
+
+        supportActionBar?.title = searchText
 
         if(image == null) {
             toast(this, "Error while fetching the details of the image")

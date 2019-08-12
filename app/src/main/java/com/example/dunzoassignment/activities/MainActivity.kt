@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.dunzoassignment.R
+import com.example.dunzoassignment.extensions.logDebug
 import com.example.dunzoassignment.extensions.onChange
 import com.example.dunzoassignment.extensions.toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -22,15 +23,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        logDebug("onCreate")
 
         searchText.onChange {text -> searchQuery = text}
 
         searchButton.setOnClickListener {
-
-            Glide.with(this)
-                .load(R.drawable.logo)
-                .centerCrop()
-                .into(logo)
 
             if(searchQuery.isEmpty()) {
                 toast(this, "Please enter a valid search text to proceed.")
@@ -40,5 +37,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        searchText.setText("")
+        searchQuery = ""
     }
 }
