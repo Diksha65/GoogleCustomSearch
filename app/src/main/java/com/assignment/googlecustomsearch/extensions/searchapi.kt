@@ -17,15 +17,9 @@ fun searchURL(searchString: String, startIndex : String) : HttpUrl {
         .newBuilder()
         .addQueryParameter("q", searchString)
         .addQueryParameter("cx", "011476162607576381860:ra4vmliv9ti")
-        .addQueryParameter("key", "AIzaSyBJi2kkIw-r4scsFfXtyfEXkrojrS3lnf0")
+        .addQueryParameter("key", "AIzaSyDpMYRjzmp67tQoGDmCk8iun_rY657Lefs")
         .addQueryParameter("start", startIndex)
         .build()
-
-    //AIzaSyBJi2kkIw-r4scsFfXtyfEXkrojrS3lnf0
-    //AIzaSyBhr-u_ydyht1fHWoQXyTaTgR3nRJc1J1o
-    //AIzaSyCybp92CY-GYqvqRDsHFVoiBpzURAdPqys
-    //AIzaSyAcN29jb5LOVBvMTWXGe5ie6X7D9HS68tY
-    //Original : AIzaSyDpMYRjzmp67tQoGDmCk8iun_rY657Lefs
 }
 
 fun createSearchRequest(url : HttpUrl) : Request {
