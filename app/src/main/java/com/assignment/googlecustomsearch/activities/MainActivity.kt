@@ -9,11 +9,6 @@ import com.assignment.googlecustomsearch.extensions.onChange
 import com.assignment.googlecustomsearch.extensions.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
-//API had only 100 calls per day hence it stuck me for a long time.
-//The response was not consistent. The data was very bad
-//the searchType image was not enabled in the api so it was getting difficult to fetch images
-//images were out of sync with the search topic
-
 class MainActivity : AppCompatActivity() {
 
     var searchQuery : String = ""
