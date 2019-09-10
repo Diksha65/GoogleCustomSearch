@@ -32,13 +32,13 @@ To run the app :
 2. PhotoView - to add the zooming functionality to the image in third screen
 3. Glide - to load images into the imageView
 4. Gson - to convert the JSON representation of API response to Java Objects
-5. custom tabs - to implement the feature of chrome custom tabs and male transtition from android to web more seamlessly
+5. custom tabs - to implement the feature of chrome custom tabs and make transtition from android to web more seamlessly
 
 ## Challenges faced :
 
 1. API had only 100 calls per day which was very posed challenges while developing the app.
-2. There was no reliable documentation tyo understand the behaviour of the API so certain assumptions had to be taken.
-3. The 'searchType' = 'Image' was not enabled on the api so we had to filter and apply checks while fetching the results.
+2. There was no reliable documentation to understand the behaviour of the API so certain assumptions had to be taken.
+3. The 'searchType' = 'Image' was not enabled on the api so I had to filter and apply checks while fetching the results.
 4. The images returned by the Custom Search API sometimes do not correspond with Google Search and I felt that the results were not very accurate.
 5. This was the first time I implemented Pagination so I found it difficult but it was a good challenge and I learnt a lot.
 
